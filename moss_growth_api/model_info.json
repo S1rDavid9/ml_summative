@@ -1,0 +1,13 @@
+{
+    "model_name": "Random Forest",
+    "test_r2": 0.6240020231532213,
+    "test_rmse": 8.060342164653322,
+    "test_mae": 4.827506622766045,
+    "features": [
+        "Temperature (\u00b0C)",
+        "Humidity (%)",
+        "TDS Value (ppm)",
+        "pH Level"
+    ],
+    "target": "Growth Days"
+}
