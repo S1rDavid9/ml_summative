@@ -61,7 +61,7 @@ def predict_growth_days(temperature, humidity, tds, ph):
             'tds': tds,
             'ph': ph
         },
-        'predicted_growth_days': round(prediction, 2),
+        'predicted_growth_days': round(prediction),  # Round to whole number
         'model_used': model_info['model_name'],
         'model_accuracy_r2': round(model_info['test_r2'], 4)
     }
@@ -72,9 +72,9 @@ def get_interpretation(predicted_days):
     """Provide interpretation of predicted growth days"""
     if predicted_days < 15:
         return "Very fast growth - Excellent conditions"
-    elif predicted_days < 25:
+    elif predicted_days < 20:
         return "Fast growth - Good conditions"
-    elif predicted_days < 35:
+    elif predicted_days < 25:
         return "Moderate growth - Acceptable conditions"
     else:
         return "Slow growth - Suboptimal conditions"

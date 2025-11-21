@@ -144,36 +144,13 @@ class PredictionInput(BaseModel):
 
 class PredictionOutput(BaseModel):
     """
-    Output model for prediction results with comprehensive details.
+    Output model for prediction results.
     """
     
     predicted_growth_days: float = Field(
         ...,
         description="Predicted number of days for moss growth",
-        example=18.45
-    )
-    
-    input_conditions: Dict[str, float] = Field(
-        ...,
-        description="Echo of the input environmental conditions",
-        example={
-            "temperature": 22.5,
-            "humidity": 70.0,
-            "tds": 600.0,
-            "ph": 6.4
-        }
-    )
-    
-    model_used: str = Field(
-        ...,
-        description="Name of the machine learning model used for prediction",
-        example="Random Forest"
-    )
-    
-    model_accuracy_r2: float = Field(
-        ...,
-        description="R² score of the model on test data (coefficient of determination)",
-        example=0.624
+        example=16
     )
     
     interpretation: str = Field(
@@ -182,19 +159,18 @@ class PredictionOutput(BaseModel):
         example="Fast growth - Good conditions"
     )
     
+    model_used: str = Field(
+        ...,
+        description="Name of the machine learning model used for prediction",
+        example="Random Forest"
+    )
+    
     class Config:
         json_schema_extra = {
             "example": {
-                "predicted_growth_days": 18.45,
-                "input_conditions": {
-                    "temperature": 22.5,
-                    "humidity": 70.0,
-                    "tds": 600.0,
-                    "ph": 6.4
-                },
-                "model_used": "Random Forest",
-                "model_accuracy_r2": 0.624,
-                "interpretation": "Fast growth - Good conditions"
+                "predicted_growth_days": 16,
+                "interpretation": "Fast growth - Good conditions",
+                "model_used": "Random Forest"
             }
         }
 
@@ -224,9 +200,9 @@ def get_interpretation(predicted_days: float) -> str:
     """
     if predicted_days < 15:
         return "Very fast growth - Excellent conditions"
-    elif predicted_days < 25:
+    elif predicted_days < 20:
         return "Fast growth - Good conditions"
-    elif predicted_days < 35:
+    elif predicted_days < 25:
         return "Moderate growth - Acceptable conditions"
     else:
         return "Slow growth - Suboptimal conditions"
@@ -385,11 +361,9 @@ async def predict(input_data: PredictionInput):
         
         # Prepare response
         response = PredictionOutput(
-            predicted_growth_days=round(prediction, 2),
-            input_conditions=result['input_conditions'],
-            model_used=result['model_used'],
-            model_accuracy_r2=result['model_accuracy_r2'],
-            interpretation=interpretation
+            predicted_growth_days=round(prediction),  # Round to whole number
+            interpretation=interpretation,
+            model_used=result['model_used']
         )
         
         return response
