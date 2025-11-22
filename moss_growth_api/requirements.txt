@@ -1,9 +1,4 @@
-# ============================================================================
 # MOSS GROWTH PREDICTION API - REQUIREMENTS
-# ============================================================================
-# Python dependencies for FastAPI application deployment
-# Last updated: November 2025
-# ============================================================================
 
 # Core FastAPI Framework
 fastapi>=0.104.1
